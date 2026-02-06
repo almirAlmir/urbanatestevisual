@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand navbar-dark bg-primary shadow-sm mb-4">
+  <div class="container">
+    
+    <a class="navbar-brand fw-bold" routerLink="/">
+      🚌 VEM <span class="fw-light">System</span>
+    </a>
+
+    <div class="navbar-nav ms-auto align-items-center">
+
+      <ng-container *ngIf="usuario; else visitante">
+        
+        <span class="navbar-text text-white me-3 d-none d-md-block">
+          Olá, <strong>{{ usuario.nome }}</strong>
+        </span>
+
+        <a *ngIf="usuario.tipo === 'ADMIN'" 
+           class="nav-link text-white active" 
+           routerLink="/usuarios">
+           👥 Usuários
+        </a>
+
+        <a *ngIf="usuario.tipo !== 'ADMIN'" 
+           class="nav-link text-white" 
+           routerLink="/meus-cartoes"
+           routerLinkActive="active">
+           💳 Cartões
+        </a>
+
+        <a *ngIf="usuario.tipo !== 'ADMIN'" 
+           class="nav-link text-white" 
+           routerLink="/meu-perfil"
+           routerLinkActive="active">
+           👤 Perfil
+        </a>
+
+        <button class="btn btn-sm btn-outline-light ms-3" (click)="sair()">
+          Sair
+        </button>
+
+      </ng-container>
+
+      <ng-template #visitante>
+        <a class="nav-link text-white" routerLink="/login">Entrar</a>
+        <a class="btn btn-sm btn-light text-primary ms-2" routerLink="/cadastro">Cadastre-se</a>
+      </ng-template>
+
+    </div>
+  </div>
+</nav>

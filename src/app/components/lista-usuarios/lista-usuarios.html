@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Gestão de Usuários</h3>
+    <button class="btn btn-success" routerLink="/cadastro">
+      + Novo Usuário
+    </button>
+  </div>
+
+  <div *ngIf="carregando" class="text-center my-5">
+    <output class="spinner-border text-primary"></output>
+    <p>Carregando lista...</p>
+  </div>
+
+  <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+
+  <table *ngIf="!carregando && !erro" class="table table-hover shadow-sm">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Tipo</th>
+        <th class="text-end">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let u of usuarios">
+        <td>{{ u.id }}</td>
+        <td>{{ u.nome }}</td>
+        <td>{{ u.email }}</td>
+        <td>
+          <span class="badge" 
+                [ngClass]="u.tipo === 'ADMIN' ? 'bg-danger' : 'bg-info'">
+            {{ u.tipo }}
+          </span>
+        </td>
+        <td class="text-end">
+          <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/usuarios', u.id, 'cartoes']">
+            Cartões
+          </button>
+          
+          <button class="btn btn-sm btn-outline-danger" 
+                  (click)="deletarUsuario(u.id)">
+            Excluir
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <div *ngIf="!carregando && usuarios.length === 0" class="alert alert-warning">
+    Nenhum usuário encontrado.
+  </div>
+</div>

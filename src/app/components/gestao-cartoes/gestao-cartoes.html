@@ -1,0 +1,123 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="text-primary">Gerir Cartões</h2>
+      <p class="text-muted">Usuário ID: <strong>{{ usuarioId }}</strong></p>
+    </div>
+    <button class="btn btn-outline-secondary" (click)="voltar()">
+      ⬅ Voltar para Usuários
+    </button>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">+ Novo Cartão</h5>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="salvar()">
+            
+            <div class="mb-3">
+              <label class="form-label">Apelido do Cartão</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                [(ngModel)]="novoCartao.nome" 
+                name="nome" 
+                placeholder="Ex: Bilhete Único" 
+                required>
+              <div class="form-text">Dê um nome para identificar este cartão.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Tipo de Cartão</label>
+              <select 
+                class="form-select" 
+                [(ngModel)]="novoCartao.tipo" 
+                name="tipo">
+                <option value="COMUM">Comum</option>
+                <option value="ESTUDANTE">Estudante</option>
+                <option value="TRABALHADOR">Trabalhador</option>
+              </select>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-success" [disabled]="carregando">
+                {{ carregando ? 'Gerando...' : 'Gerar Cartão Automático' }}
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">Cartões Ativos</h5>
+        </div>
+        
+        <div class="card-body p-0">
+          
+          <div *ngIf="carregando" class="text-center p-4">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="mt-2 text-muted">Buscando cartões...</p>
+          </div>
+
+          <table *ngIf="!carregando" class="table table-hover table-striped mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Número (Gerado)</th>
+                <th>Apelido</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th class="text-end">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let c of cartoes">
+                <td class="fw-bold font-monospace">{{ c.numeroCartao }}</td>
+                <td>{{ c.nome }}</td> <td>
+                  <span class="badge" 
+                    [ngClass]="{
+                      'bg-primary': c.tipo === 'COMUM',
+                      'bg-warning': c.tipo === 'ESTUDANTE',
+                      'bg-dark': c.tipo === 'TRABALHADOR'
+                    }">
+                    {{ c.tipo }}
+                  </span>
+                </td>
+                <td>
+                  <span class="badge" 
+                    [ngClass]="c.status ? 'bg-success' : 'bg-danger'">
+                    {{ c.status ? 'Ativo' : 'Bloqueado' }}
+                  </span>
+                </td>
+                <td class="text-end">
+                    <button class="btn btn-sm" 
+                        [ngClass]="c.status ? 'btn-outline-danger' : 'btn-outline-success'"
+                        (click)="alternarStatus(c)"
+                        [title]="c.status ? 'Bloquear Cartão' : 'Desbloquear Cartão'">
+                        
+                        <span *ngIf="c.status">🔒 Bloquear</span>
+                        <span *ngIf="!c.status">🔓 Ativar</span>
+                        
+                    </button>
+                </td>
+              </tr>
+              
+              <tr *ngIf="cartoes.length === 0">
+                <td colspan="5" class="text-center py-4 text-muted">
+                  Este usuário ainda não possui cartões vinculados.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

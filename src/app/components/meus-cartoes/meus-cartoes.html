@@ -1,0 +1,71 @@
+<div class="container">
+  
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm border-success">
+        <div class="card-body text-center">
+          <h5 class="card-title text-success">Solicitar Novo Cartão</h5>
+          <p class="text-muted small">Escolha o tipo e receba agora.</p>
+          
+          <div class="mb-3">
+            <select class="form-select" [(ngModel)]="novoCartaoTipo">
+              <option value="COMUM">Comum</option>
+              <option value="ESTUDANTE">Estudante</option>
+              <option value="TRABALHADOR">Trabalhador</option>
+            </select>
+          </div>
+          
+          <button class="btn btn-success w-100" (click)="solicitarCartao()">
+            + Pedir Cartão
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <h4 class="mb-3">Meus Cartões</h4>
+
+      <div *ngIf="carregando" class="text-center py-4">
+        <div class="spinner-border text-success" role="status"></div>
+      </div>
+
+      <div *ngIf="!carregando && cartoes.length === 0" class="alert alert-info">
+        Você ainda não possui cartões. Solicite um ao lado!
+      </div>
+
+      <div class="row" *ngIf="!carregando">
+        <div class="col-12 mb-3" *ngFor="let c of cartoes">
+          <div class="card shadow-sm" [ngClass]="{'border-danger': !c.status}">
+            <div class="card-body d-flex justify-content-between align-items-center">
+              
+              <div>
+                <h5 class="mb-1 fw-bold font-monospace">{{ c.numeroCartao }}</h5>
+                <small class="text-muted d-block mb-2">{{ c.nome }}</small>
+
+                <span class="badge me-2" 
+                      [ngClass]="{
+                        'bg-primary': c.tipo==='COMUM', 
+                        'bg-warning': c.tipo==='ESTUDANTE', 
+                        'bg-dark': c.tipo==='TRABALHADOR'
+                      }">
+                  {{ c.tipo }}
+                </span>
+
+                <span class="badge" [ngClass]="c.status ? 'bg-success' : 'bg-danger'">
+                  {{ c.status ? 'Ativo' : 'Bloqueado Pelo Admin' }}
+                </span>
+              </div>
+
+              <button class="btn btn-outline-danger btn-sm" 
+                      (click)="excluirCartao(c)"
+                      title="Excluir este cartão permanentemente">
+                🗑 Excluir
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>

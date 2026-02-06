@@ -1,59 +1,84 @@
-# Urbanatestevisual
+# 🚌 VEM - Sistema de Bilhetagem (Frontend)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+Este é o **Frontend** do sistema VEM (Voucher Eletrônico Municipal?), desenvolvido em **Angular**. O sistema permite a gestão de usuários e cartões de transporte/acesso, com perfis diferenciados para Administradores e Usuários Comuns.
 
-## Development server
+## 🚀 Funcionalidades
 
-To start a local development server, run:
+* **Autenticação:** Login e Cadastro de novos usuários.
+* **Perfil de Administrador:**
+    * Listagem de todos os usuários.
+    * Gestão de cartões de terceiros (Bloquear/Desbloquear).
+    * Exclusão de usuários.
+* **Perfil de Usuário Comum:**
+    * Visualização dos próprios cartões ("Meus Cartões").
+    * Solicitação de novos cartões (Comum, Estudante, Trabalhador).
+    * Exclusão de seus próprios cartões.
+    * Edição de Perfil (Nome, Senha) e Auto-exclusão de conta.
+* **Interface:** Responsiva e dinâmica (Navbar adapta-se ao usuário logado).
 
-```bash
-ng serve
-```
+## 🛠️ Tecnologias
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+* **Angular** (v17+ Standalone Components)
+* **Bootstrap 5** (Estilização)
+* **TypeScript**
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## ⚙️ Pré-requisitos
 
-```bash
-ng generate component component-name
-```
+Para rodar este projeto, você precisa ter instalado:
+* [Node.js](https://nodejs.org/)
+* [Angular CLI](https://angular.io/cli) (`npm install -g @angular/cli`)
+* O **Backend** do sistema rodando localmente.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 📦 Como Executar
 
-```bash
-ng generate --help
-```
+1.  **Clone o repositório:**
+    ```bash
+    git clone <url-do-seu-repo-frontend>
+    cd vem-frontend
+    ```
 
-## Building
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-To build the project run:
+3.  **Configure o Backend:**
+    O frontend espera que o **API Gateway** esteja rodando na porta **8080**.
+    * O arquivo `proxy.conf.json` já está configurado para redirecionar chamadas `/usuario-service` e `/cartao-service` para `http://localhost:8080`.
 
-```bash
-ng build
-```
+4.  **Rode o servidor de desenvolvimento:**
+    ```bash
+    npm start
+    # Ou: ng serve
+    ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+5.  **Acesse:**
+    Abra o navegador em `http://localhost:4200`.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## 🔐 Sobre o Login (Mock/Simulação)
 
-```bash
-ng test
-```
+Embora o sistema se conecte ao banco de dados real para verificar se o e-mail existe, a **camada de segurança é simplificada** para fins didáticos:
 
-## Running end-to-end tests
+1.  **Validação:** O sistema busca o usuário pelo e-mail no Backend (`GET /usuario`). Se encontrar, permite a entrada.
+2.  **Sessão:** Não utilizamos Tokens (JWT). A sessão é mantida salvando o objeto do usuário no `localStorage` do navegador.
+3.  **Segurança:** A proteção de rotas (Guards) verifica apenas a presença desse objeto no `localStorage`. Em um ambiente de produção real, seria necessário implementar OAuth2 ou JWT.
 
-For end-to-end (e2e) testing, run:
+### 🧪 Usuários para Teste
 
-```bash
-ng e2e
-```
+Se você já rodou os scripts de carga do Backend (SQL), pode tentar:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+* **Admin:** `admin@vem.com` (ou o e-mail que você definiu como `root`)
+* **Comum:** Cadastre um novo usuário na tela de "Cadastre-se".
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🔗 Repositório do Backend
+
+Este frontend depende dos microsserviços (Usuario, Cartao, Gateway e Eureka).
+Acesse o código do Backend aqui:
+
+👉 **[Link para o Repositório do Backend](https://github.com/almirAlmir/urbanatesteapi)**
