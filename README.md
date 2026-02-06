@@ -1,6 +1,6 @@
-# 🚌 VEM - Sistema de Bilhetagem (Frontend)
+# 🚌 Sistema de Bilhetagem (Frontend)
 
-Este é o **Frontend** do sistema VEM (Voucher Eletrônico Municipal?), desenvolvido em **Angular**. O sistema permite a gestão de usuários e cartões de transporte/acesso, com perfis diferenciados para Administradores e Usuários Comuns.
+Este é o **Frontend** do sistema, desenvolvido em **Angular**. O sistema permite a gestão de usuários e cartões de transporte/acesso, com perfis diferenciados para Administradores e Usuários Comuns.
 
 ## 🚀 Funcionalidades
 
@@ -61,7 +61,7 @@ Para rodar este projeto, você precisa ter instalado:
 
 ## 🔐 Sobre o Login (Mock/Simulação)
 
-Embora o sistema se conecte ao banco de dados real para verificar se o e-mail existe, a **camada de segurança é simplificada** para fins didáticos:
+Embora o sistema se conecte ao banco de dados real para verificar se o e-mail existe, a **camada de segurança é simplificada** visto que o Login não foi implementado no backend:
 
 1.  **Validação:** O sistema busca o usuário pelo e-mail no Backend (`GET /usuario`). Se encontrar, permite a entrada.
 2.  **Sessão:** Não utilizamos Tokens (JWT). A sessão é mantida salvando o objeto do usuário no `localStorage` do navegador.
